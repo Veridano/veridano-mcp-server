@@ -8,7 +8,15 @@ Access 11 U.S. government cybersecurity data sources through a hosted API servic
 
 ### For Claude Desktop
 
-**Step 1:** Configure in Claude Desktop settings:
+**Step 1:** Open Claude Desktop application
+
+**Step 2:** Click the **Settings** gear icon (bottom left)
+
+**Step 3:** Click **Developer** in the settings menu
+
+**Step 4:** Click **Edit Config** button
+
+**Step 5:** Add this JSON configuration:
 
 ```json
 {
@@ -21,7 +29,7 @@ Access 11 U.S. government cybersecurity data sources through a hosted API servic
 }
 ```
 
-**Step 2:** Restart Claude Desktop
+**Step 6:** Save the file and restart Claude Desktop
 
 ### For ChatGPT
 
