@@ -18,7 +18,7 @@ Access 11 U.S. government cybersecurity data sources through a hosted API servic
 
 **Step 5:** Configure the Veridano connector:
 - **Name**: `Veridano Intelligence`
-- **Server URL**: `https://7lqg8v66p1.execute-api.us-east-1.amazonaws.com/prod`
+- **Server URL**: `https://kapnlkosgwhjrzzfpp2ettgh4i0rqrbu.lambda-url.us-east-1.on.aws`
 - **Authentication**: None required
 
 **Step 6:** Click **Save** and enable the connector
@@ -36,9 +36,9 @@ Access 11 U.S. government cybersecurity data sources through a hosted API servic
 
 **That's it!** Start querying: *"Search CISA advisories for ransomware threats"*
 
-## 🔗 Direct API Access
+## 🔗 Alternative: Direct API Access
 
-For custom integrations:
+For custom integrations (non-MCP):
 
 ```bash
 curl -X POST "https://7lqg8v66p1.execute-api.us-east-1.amazonaws.com/prod/api/search" \
