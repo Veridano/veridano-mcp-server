@@ -6,6 +6,8 @@ Access 11 U.S. government cybersecurity data sources through a unified MCP serve
 
 ## ⚡ Quick Start
 
+### For Claude Desktop
+
 **Step 1:** Configure in Claude Desktop settings:
 
 ```json
@@ -20,6 +22,17 @@ Access 11 U.S. government cybersecurity data sources through a unified MCP serve
 ```
 
 **Step 2:** Restart Claude Desktop
+
+### For ChatGPT
+
+**Step 1:** Go to ChatGPT Settings > Beta Features > Model Context Protocol
+
+**Step 2:** Add MCP Server:
+- **Name**: `Veridano Intelligence`
+- **URL**: `https://raw.githubusercontent.com/Veridano/veridano-mcp-server/main/mcp_client.py`
+- **Type**: `Python Script`
+
+**Step 3:** Enable the server
 
 **That's it!** Start querying: *"Search CISA advisories for ransomware threats"*
 

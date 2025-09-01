@@ -6,7 +6,7 @@
 - Python 3.8+ environment  
 - Network access (HTTPS/443 outbound)
 
-### Claude Desktop Configuration
+### For Claude Desktop
 
 1. Open Claude Desktop settings
 2. Go to **Developer** > **Edit Config**  
@@ -24,6 +24,17 @@
 ```
 
 4. Restart Claude Desktop
+5. **Done!** Start querying cybersecurity intelligence
+
+### For ChatGPT
+
+1. Go to **ChatGPT Settings** > **Beta Features** > **Model Context Protocol**
+2. Click **Add MCP Server**
+3. Configure:
+   - **Name**: `Veridano Intelligence`
+   - **URL**: `https://raw.githubusercontent.com/Veridano/veridano-mcp-server/main/mcp_client.py`
+   - **Type**: `Python Script`
+4. **Enable** the server
 5. **Done!** Start querying cybersecurity intelligence
 
 ### Alternative: Local Installation
