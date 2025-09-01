@@ -4,18 +4,47 @@
 
 Access 11 U.S. government cybersecurity data sources through a hosted API service.
 
-## ⚡ Direct API Access
+## ⚡ Quick Start
 
-**API Endpoint:** `https://7lqg8v66p1.execute-api.us-east-1.amazonaws.com/prod/api/search`
+### For Claude Desktop
 
-**Example Query:**
+**Step 1:** Configure in Claude Desktop settings:
+
+```json
+{
+  "mcpServers": {
+    "veridano": {
+      "command": "python",
+      "args": ["-c", "import requests; exec(requests.get('https://raw.githubusercontent.com/Veridano/veridano-mcp-server/main/mcp_client.py').text)"]
+    }
+  }
+}
+```
+
+**Step 2:** Restart Claude Desktop
+
+### For ChatGPT
+
+**Step 1:** Go to ChatGPT Settings > Beta Features > Model Context Protocol
+
+**Step 2:** Add MCP Server:
+- **Name**: `Veridano Intelligence`
+- **URL**: `https://raw.githubusercontent.com/Veridano/veridano-mcp-server/main/mcp_client.py`
+- **Type**: `Python Script`
+
+**Step 3:** Enable the server
+
+**That's it!** Start querying: *"Search CISA advisories for ransomware threats"*
+
+## 🔗 Direct API Access
+
+For custom integrations:
+
 ```bash
 curl -X POST "https://7lqg8v66p1.execute-api.us-east-1.amazonaws.com/prod/api/search" \
   -H "Content-Type: application/json" \
   -d '{"query": "CISA ransomware advisory", "top_k": 5}'
 ```
-
-**That's it!** No installation, no configuration, no authentication required.
 
 ## 🎯 Overview
 
