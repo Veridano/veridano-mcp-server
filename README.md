@@ -17,8 +17,8 @@ Access 11 U.S. government cybersecurity data sources through a hosted API servic
 **Step 4:** Click **Add Connector**
 
 **Step 5:** Configure the Veridano connector:
-- **Name**: `Veridano Intelligence` <button onclick="navigator.clipboard.writeText('Veridano Intelligence')">📋 Copy</button>
-- **Server URL**: `https://kapnlkosgwhjrzzfpp2ettgh4i0rqrbu.lambda-url.us-east-1.on.aws` <button onclick="navigator.clipboard.writeText('https://kapnlkosgwhjrzzfpp2ettgh4i0rqrbu.lambda-url.us-east-1.on.aws')">📋 Copy</button>
+- **Name**: `Veridano Intelligence`
+- **Server URL**: `https://kapnlkosgwhjrzzfpp2ettgh4i0rqrbu.lambda-url.us-east-1.on.aws`
 - **Authentication**: None required
 
 **Step 6:** Click **Save** and enable the connector
