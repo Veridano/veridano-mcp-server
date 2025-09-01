@@ -16,20 +16,25 @@ Access 11 U.S. government cybersecurity data sources through a hosted API servic
 
 **Step 4:** Click **Edit Config** button
 
-**Step 5:** Add this JSON configuration:
+**Step 5:** First download the MCP client:
+```bash
+curl -o ~/veridano_mcp.py https://raw.githubusercontent.com/Veridano/veridano-mcp-server/main/mcp_client.py
+```
+
+**Step 6:** Add this JSON configuration:
 
 ```json
 {
   "mcpServers": {
     "veridano": {
       "command": "python",
-      "args": ["-c", "import requests; exec(requests.get('https://raw.githubusercontent.com/Veridano/veridano-mcp-server/main/mcp_client.py').text)"]
+      "args": ["~/veridano_mcp.py"]
     }
   }
 }
 ```
 
-**Step 6:** Save the file and restart Claude Desktop
+**Step 7:** Save the file and restart Claude Desktop
 
 ### For ChatGPT
 
