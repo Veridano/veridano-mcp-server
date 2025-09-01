@@ -14,7 +14,7 @@ from mcp.server import Server
 from mcp import types
 
 # Veridano API endpoint - no authentication required
-VERIDANO_ENDPOINT = "https://kapnlkosgwhjrzzfpp2ettgh4i0rqrbu.lambda-url.us-east-1.on.aws"
+VERIDANO_ENDPOINT = "https://7lqg8v66p1.execute-api.us-east-1.amazonaws.com/prod/api/search"
 
 # Initialize MCP server
 server = Server("veridano-intelligence")
@@ -101,7 +101,6 @@ async def call_tool(name: str, arguments: Dict[str, Any]) -> List[types.TextCont
                 sources = arguments.get("sources", [])
                 
                 payload = {
-                    "action": "semantic_search",
                     "query": query,
                     "top_k": top_k,
                     "min_score": min_score
@@ -128,8 +127,8 @@ async def call_tool(name: str, arguments: Dict[str, Any]) -> List[types.TextCont
                 cve_id = arguments.get("cve_id", "")
                 
                 payload = {
-                    "action": "get_cve_details",
-                    "cve_id": cve_id
+                    "query": cve_id,
+                    "top_k": 1
                 }
                 
                 async with session.post(VERIDANO_ENDPOINT, json=payload) as response:
@@ -151,9 +150,9 @@ async def call_tool(name: str, arguments: Dict[str, Any]) -> List[types.TextCont
                 time_range = arguments.get("time_range", "30_days")
                 
                 payload = {
-                    "action": "threat_intelligence_summary", 
-                    "threat_type": threat_type,
-                    "time_range": time_range
+                    "query": f"{threat_type} threat intelligence {time_range}",
+                    "top_k": 10,
+                    "min_score": 0.7
                 }
                 
                 async with session.post(VERIDANO_ENDPOINT, json=payload) as response:
