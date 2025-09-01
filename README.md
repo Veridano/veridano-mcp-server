@@ -56,242 +56,64 @@ The platform continuously monitors and indexes content from:
 | **US-CERT** | 8 hours | Cybersecurity Alerts, Analysis Reports, IOCs |
 | **FedRAMP** | Weekly | Cloud Security Controls, Compliance Frameworks |
 
-## 🤖 MCP Server Integration
-
-### Endpoint Configuration
-
-```json
-{
-  "mcp_server": {
-    "name": "veridano-intelligence",
-    "endpoint": "https://api.veridano.com/mcp",
-    "version": "2.0",
-    "capabilities": ["search", "semantic_search", "source_filtering"]
-  }
-}
-```
-
-### Authentication
-
-Veridano uses AWS Cognito for secure access:
-
-```python
-# Example MCP client configuration
-import mcp_client
-
-client = mcp_client.MCPClient(
-    endpoint="https://api.veridano.com/mcp",
-    auth_provider="aws_cognito",
-    user_pool_id="us-east-1_HgeKuWISD",
-    client_id="7eh15ia3csfmmrqnlv6t6aq877"
-)
-```
-
-## 🔧 Available Tools
+## 🤖 MCP Tools Available
 
 ### semantic_search
-Search across all government cybersecurity intelligence with vector similarity.
+Search across all government cybersecurity data sources with vector similarity.
 
-```json
-{
-  "tool": "semantic_search",
-  "parameters": {
-    "query": "ransomware attack vectors critical infrastructure",
-    "top_k": 10,
-    "min_score": 0.7,
-    "sources": ["CISA", "FBI", "ICS-CERT"]
-  }
-}
-```
+### get_cve_details  
+Get detailed CVE vulnerability information from NIST NVD.
 
-### source_search  
-Target specific government agencies for focused intelligence.
+### threat_intelligence_summary
+Get summarized threat intelligence for specific threats or attack patterns.
 
-```json
-{
-  "tool": "source_search", 
-  "parameters": {
-    "query": "CVE-2025 zero-day vulnerabilities",
-    "source": "NVD",
-    "limit": 20
-  }
-}
-```
+## 📝 Example Queries
 
-### threat_correlation
-Cross-reference threats across multiple government sources.
+**Vulnerability Research:**
+- *"Search for CVE-2024-1234 vulnerability details"*
+- *"Find recent Windows remote code execution vulnerabilities"*
 
-```json
-{
-  "tool": "threat_correlation",
-  "parameters": {
-    "indicators": ["malicious_ip", "malware_hash"],
-    "timeframe": "30_days",
-    "correlation_threshold": 0.8
-  }
-}
-```
+**Threat Intelligence:**  
+- *"Search CISA advisories for ransomware threats"*
+- *"Get APT threat intelligence summary for last 30 days"*
+
+**Compliance Research:**
+- *"Find FedRAMP moderate baseline requirements"*
+- *"Search White House cybersecurity executive orders"*
 
 ## 🏗️ Architecture
 
-### Infrastructure Overview
-
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    AI Agent Clients                         │
-└─────────────────────┬───────────────────────────────────────┘
-                      │ MCP Protocol
-┌─────────────────────▼───────────────────────────────────────┐
-│              Amazon Bedrock AgentCore Gateway               │
-│                  (Intelligent Routing)                     │
-└─────────────────────┬───────────────────────────────────────┘
-                      │
-┌─────────────────────▼───────────────────────────────────────┐
-│                Specialized Lambda Targets                  │
-│  ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐│
-│  │  CISA   │ │   FBI   │ │  NIST   │ │   DHS   │ │   ...   ││
-│  │ Target  │ │ Target  │ │ Target  │ │ Target  │ │ Targets ││
-│  └─────────┘ └─────────┘ └─────────┘ └─────────┘ └─────────┘│
-└─────────────────────┬───────────────────────────────────────┘
-                      │
-┌─────────────────────▼───────────────────────────────────────┐
-│           Aurora PostgreSQL + pgvector                     │
-│              (Vector Intelligence Database)                │
-└─────────────────────────────────────────────────────────────┘
+AI Agent → MCP Client → Veridano MCP Server → Government Data Sources
 ```
 
 ### Technical Stack
-
 - **Compute**: AWS Lambda (Python 3.9)
-- **AI/ML**: Amazon Bedrock (Claude 3.5 Sonnet, Titan Embeddings)
-- **Database**: Aurora PostgreSQL with pgvector extensions
-- **Storage**: S3 for raw document storage
-- **Orchestration**: Bedrock AgentCore Gateway with MCP protocol
-- **Authentication**: AWS Cognito OAuth 2.0
-- **Monitoring**: CloudWatch with custom dashboards
-- **Scheduling**: EventBridge for automated data collection
+- **AI/ML**: Amazon Bedrock (Titan Embeddings) 
+- **Database**: Aurora PostgreSQL with pgvector
+- **Storage**: S3 for document storage
+- **Protocol**: Model Context Protocol (MCP)
+- **Scheduling**: EventBridge for automated updates
 
-## 🚀 Getting Started for AI Agents
+## 🚀 Usage Examples
 
-### 1. Authentication Setup
+Once configured, you can immediately start querying cybersecurity intelligence:
 
-Request access credentials from Veridano:
-- **User Pool ID**: `us-east-1_HgeKuWISD`
-- **Client ID**: Contact Veridano for agent-specific client credentials
-- **Region**: `us-east-1`
+**Ask Claude Desktop:**
+- *"Search for recent CISA ransomware advisories"*
+- *"Get details for CVE-2024-1234"* 
+- *"Find APT threat intelligence from the last 30 days"*
+- *"Search for industrial control system vulnerabilities"*
+- *"Find White House cybersecurity executive orders"*
 
-### 2. MCP Client Implementation
+## 📊 Performance
 
-```python
-import asyncio
-import mcp_client
-
-async def setup_veridano_client():
-    client = mcp_client.MCPClient(
-        endpoint="https://api.veridano.com/mcp",
-        auth_method="cognito_client_credentials",
-        region="us-east-1"
-    )
-    
-    # List available tools
-    tools = await client.list_tools()
-    print("Available Veridano tools:", tools)
-    
-    return client
-
-async def search_threat_intelligence(query: str):
-    client = await setup_veridano_client()
-    
-    # Semantic search across all sources
-    results = await client.call_tool(
-        "semantic_search",
-        query=query,
-        top_k=10,
-        min_score=0.7
-    )
-    
-    return results["documents"]
-
-# Example usage
-if __name__ == "__main__":
-    results = asyncio.run(search_threat_intelligence(
-        "APT29 latest campaign tactics techniques procedures"
-    ))
-```
-
-### 3. Query Examples
-
-#### Vulnerability Research
-```python
-# Search for specific CVEs
-cve_results = await client.call_tool(
-    "source_search",
-    query="CVE-2024-38063 remote code execution",
-    source="NVD"
-)
-
-# Find related vulnerabilities
-related = await client.call_tool(
-    "semantic_search", 
-    query="Windows TCP/IP remote code execution",
-    sources=["NVD", "CISA", "FBI"]
-)
-```
-
-#### Threat Intelligence
-```python
-# Cross-source threat analysis
-apt_intel = await client.call_tool(
-    "threat_correlation",
-    query="Lazarus Group cryptocurrency targeting",
-    sources=["FBI", "NSA", "USCYBERCOM"],
-    timeframe="90_days"
-)
-
-# Industrial control systems threats  
-ics_threats = await client.call_tool(
-    "source_search",
-    query="SCADA vulnerability manufacturing",
-    source="ICS-CERT"
-)
-```
-
-#### Compliance Research
-```python
-# FedRAMP requirements
-compliance = await client.call_tool(
-    "semantic_search",
-    query="moderate baseline security controls cloud",
-    sources=["FedRAMP", "NIST"]
-)
-
-# Policy guidance
-policy = await client.call_tool(
-    "source_search", 
-    query="executive order critical infrastructure cybersecurity",
-    source="White House"
-)
-```
-
-## 📊 Performance Characteristics
-
-- **Average query response**: 150-300ms
-- **Peak throughput**: 200 queries/second (with quota increases)
-- **Database size**: 500,000+ government cybersecurity documents
-- **Update frequency**: Every 4-12 hours for time-sensitive sources
-- **Availability**: 99.9% uptime SLA
-
-## 🔒 Security Features
-
-- **Authentication**: AWS Cognito with MFA support
-- **Authorization**: Role-based access control
-- **Encryption**: All data encrypted in transit and at rest
-- **Compliance**: FedRAMP-ready architecture
-- **Audit**: Full CloudTrail logging of all agent queries
+- **Response time**: 150-300ms average
+- **Database**: 500,000+ government cybersecurity documents  
+- **Updates**: Every 4-12 hours for time-sensitive sources
+- **Uptime**: 99.9% availability
 
 ## 📝 Response Format
-
-All MCP tool responses follow this standardized format:
 
 ```json
 {
@@ -301,81 +123,46 @@ All MCP tool responses follow this standardized format:
       "title": "CISA Analysis of Ransomware Trends and Tactics",
       "content": "Comprehensive analysis of ransomware trends...",
       "source": "CISA",
-      "category": "threat_intelligence", 
-      "document_type": "cybersecurity_advisory",
       "score": 0.95,
       "published_date": "2024-05-10T00:00:00Z",
-      "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-131a",
-      "metadata": {
-        "similarity_threshold": 0.7,
-        "query_matches": 3,
-        "embedding_status": "✅ Generated"
-      }
+      "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-131a"
     }
   ],
   "total_results": 1,
-  "query": "ransomware attack vectors",
-  "search_backend": "Aurora_Serverless_v2_pgvector",
   "timestamp": "2025-09-01T01:21:21.356Z"
 }
 ```
 
-## ⚡ Rate Limits & Quotas
+## ⚡ Usage Guidelines
 
-**Current Limits (Production):**
-- **Authenticated agents**: 1000 concurrent sessions
-- **Query rate**: 200 queries/second (pending AWS quota increase)
-- **Search complexity**: No limit on query complexity
+- **Concurrent sessions**: 1000+ supported
+- **Query complexity**: No limits
 - **Result size**: Up to 50 documents per query
+- **Fair usage**: Please cache results when appropriate
 
-**Fair Usage:**
-- Implement exponential backoff for rate limit handling
-- Cache results locally when appropriate  
-- Use source filtering to reduce unnecessary load
+## 💡 Alternative Setup Methods
 
-## 🛠️ Setup Instructions
+### Local Installation
+```bash
+git clone https://github.com/Veridano/veridano-mcp-server.git
+cd veridano-mcp-server
 
-### For AI Agent Developers
+# Configure with full path in Claude Desktop:
+{
+  "mcpServers": {
+    "veridano": {
+      "command": "python",
+      "args": ["/full/path/to/veridano-mcp-server/mcp_client.py"]
+    }
+  }
+}
+```
 
-1. **Request Access**
-   - Contact Veridano for agent credentials
-   - Provide agent use case and expected volume
-   - Receive client ID and integration guide
-
-2. **Install MCP Client**
-   ```bash
-   pip install mcp-client requests boto3
-   ```
-
-3. **Configure Authentication**
-   ```python
-   # Environment variables
-   export VERIDANO_CLIENT_ID="your_client_id" 
-   export VERIDANO_CLIENT_SECRET="your_client_secret"
-   export VERIDANO_REGION="us-east-1"
-   ```
-
-4. **Test Connection**
-   ```python
-   import veridano_mcp_client
-   
-   client = veridano_mcp_client.connect()
-   health = await client.health_check()
-   print(f"Veridano status: {health['status']}")
-   ```
-
-### For Enterprise Deployment
-
-1. **Infrastructure Requirements**
-   - AWS Account with Bedrock access
-   - Aurora PostgreSQL with pgvector
-   - Lambda execution role with appropriate permissions
-   - S3 bucket for document storage
-
-2. **Deployment Options**
-   - **SaaS**: Use hosted Veridano instance (recommended)
-   - **Self-hosted**: Deploy using provided CloudFormation templates
-   - **Hybrid**: Custom integration with existing security infrastructure
+### Enterprise Options
+Contact enterprise@veridano.com for:
+- Custom authentication requirements
+- Private deployment options  
+- Volume licensing and SLAs
 
 ## 📚 Documentation
 
@@ -387,17 +174,13 @@ All MCP tool responses follow this standardized format:
 
 ## 🤝 Support
 
-- **Issues**: [GitHub Issues](https://github.com/Veridano/veridano-intelligence-platform/issues)
-- **Documentation**: [docs.veridano.com](https://docs.veridano.com)
+- **Issues**: [GitHub Issues](https://github.com/Veridano/veridano-mcp-server/issues)
 - **Enterprise Support**: enterprise@veridano.com
-- **Community**: [Veridano Discord](https://discord.gg/veridano)
 
 ## 📄 License
 
-Copyright © 2025 Veridano Intelligence Platform. All rights reserved.
-
-**Enterprise License** - Contact for commercial licensing terms.
+MIT License - See LICENSE file for details.
 
 ---
 
-**Built for AI Agents. Powered by AWS. Secured by Government Intelligence.**
+**Built for AI Agents. Powered by U.S. Government Intelligence.**
