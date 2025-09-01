@@ -18,7 +18,7 @@ Access 11 U.S. government cybersecurity data sources through a hosted API servic
 
 **Step 5:** Configure the Veridano connector:
 - **Name**: `Veridano Intelligence`
-- **Server URL**: `https://veridano-cybersecurity-intelligence-gateway-bpto3h0enc.gateway.bedrock-agentcore.us-east-1.amazonaws.com/mcp`
+- **Server URL**: `https://k26xmkudvpbca5mugy64w3ucau0kisdr.lambda-url.us-east-1.on.aws/`
 - **Authentication**: None required
 
 **Step 6:** Click **Save** and enable the connector
