@@ -23,9 +23,6 @@ Access 11 U.S. government cybersecurity data sources through a unified MCP serve
 
 **That's it!** Start querying: *"Search CISA advisories for ransomware threats"*
 
-> **Server Endpoint:** `https://kapnlkosgwhjrzzfpp2ettgh4i0rqrbu.lambda-url.us-east-1.on.aws`  
-> **Authentication:** None required
-
 ## 🎯 Overview
 
 Veridano provides AI agents with comprehensive access to U.S. government cybersecurity intelligence through a unified MCP server interface.
