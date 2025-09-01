@@ -1,34 +1,70 @@
-# Veridano Intelligence Platform Setup Guide
+# Veridano MCP Server Setup Guide
 
-## Prerequisites
+## ⚡ Quick Setup (No Authentication)
 
-### AI Agent Requirements
-- Python 3.8+ environment
-- MCP client library support
-- Network access to AWS services (us-east-1 region)
-- Valid Veridano access credentials
+### Prerequisites
+- Python 3.8+ environment  
+- Network access (HTTPS/443 outbound)
 
-### System Requirements
-- **Memory**: Minimum 512MB for MCP client
-- **Network**: HTTPS/443 outbound access
-- **Authentication**: AWS Cognito client credentials
-- **Protocol**: MCP 2.0 compatible client
+### Claude Desktop Configuration
 
-## Installation
+1. Open Claude Desktop settings
+2. Go to **Developer** > **Edit Config**  
+3. Add this configuration:
 
-### 1. Install MCP Client Dependencies
-
-```bash
-pip install mcp-client boto3 asyncio requests
+```json
+{
+  "mcpServers": {
+    "veridano": {
+      "command": "python",
+      "args": ["-c", "import requests; exec(requests.get('https://raw.githubusercontent.com/Veridano/veridano-mcp-server/main/mcp_client.py').text)"]
+    }
+  }
+}
 ```
 
-### 2. Set Environment Variables
+4. Restart Claude Desktop
+5. **Done!** Start querying cybersecurity intelligence
+
+### Alternative: Local Installation
+
+```bash
+# Clone repository
+git clone https://github.com/Veridano/veridano-mcp-server.git
+cd veridano-mcp-server
+
+# Configure in Claude Desktop
+{
+  "mcpServers": {
+    "veridano": {
+      "command": "python",
+      "args": ["/absolute/path/to/veridano-mcp-server/mcp_client.py"]
+    }
+  }
+}
+```
+
+## Basic Usage Test
+
+```python
+# Test query in Claude Desktop:
+"Search for recent CISA advisories about ransomware"
+```
+
+---
+
+## 🔒 Enterprise Setup (With Authentication)
+
+*For organizations requiring authentication and rate limiting:*
+
+### Environment Variables (Optional)
 
 ```bash
 export VERIDANO_ENDPOINT="https://api.veridano.com/mcp"
 export VERIDANO_REGION="us-east-1"
-export VERIDANO_CLIENT_ID="your_client_id"
-export VERIDANO_CLIENT_SECRET="your_client_secret"
+# Uncomment for authenticated access:
+# export VERIDANO_CLIENT_ID="your_client_id"  
+# export VERIDANO_CLIENT_SECRET="your_client_secret"
 ```
 
 ### 3. Basic Connection Test

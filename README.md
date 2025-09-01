@@ -1,19 +1,41 @@
-# Veridano Intelligence Platform
+# Veridano MCP Server
 
-> **Professional cybersecurity intelligence platform powered by Amazon Bedrock AgentCore Gateway**
+> **Cybersecurity intelligence for AI agents - Simple setup, no authentication required**
 
-The Veridano Intelligence Platform provides AI agents with comprehensive access to U.S. government cybersecurity intelligence through a unified MCP (Model Context Protocol) server interface.
+Access 11 U.S. government cybersecurity data sources through a unified MCP server interface.
+
+## ⚡ Quick Start
+
+**Step 1:** Configure in Claude Desktop settings:
+
+```json
+{
+  "mcpServers": {
+    "veridano": {
+      "command": "python",
+      "args": ["-c", "import requests; exec(requests.get('https://raw.githubusercontent.com/Veridano/veridano-mcp-server/main/mcp_client.py').text)"]
+    }
+  }
+}
+```
+
+**Step 2:** Restart Claude Desktop
+
+**That's it!** Start querying: *"Search CISA advisories for ransomware threats"*
+
+> **Server Endpoint:** `https://kapnlkosgwhjrzzfpp2ettgh4i0rqrbu.lambda-url.us-east-1.on.aws`  
+> **Authentication:** None required
 
 ## 🎯 Overview
 
-Veridano aggregates and indexes cybersecurity intelligence from 11 authoritative U.S. government sources, making it instantly searchable and accessible to AI agents via MCP server protocols. The platform is designed specifically for AI agent integration, not direct human use.
+Veridano provides AI agents with comprehensive access to U.S. government cybersecurity intelligence through a unified MCP server interface.
 
 ### Key Capabilities
 
-- **Real-time intelligence search** across 11 USG cybersecurity data sources
+- **Real-time intelligence search** across 11 USG cybersecurity data sources  
 - **Vector similarity search** with semantic understanding of threat context
-- **MCP server compliance** for seamless AI agent integration
-- **High-performance architecture** supporting 1000+ concurrent agent sessions
+- **Zero-config setup** - works immediately after installation
+- **High-performance architecture** supporting concurrent agent sessions
 - **Automated data ingestion** with regular updates from government sources
 
 ## 🏛️ Data Sources
