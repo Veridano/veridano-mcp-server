@@ -1,40 +1,21 @@
-# Veridano MCP Server
+# Veridano Intelligence API
 
-> **Cybersecurity intelligence for AI agents - Simple setup, no authentication required**
+> **Cybersecurity intelligence API for AI agents - Hosted service, no setup required**
 
-Access 11 U.S. government cybersecurity data sources through a unified MCP server interface.
+Access 11 U.S. government cybersecurity data sources through a hosted API service.
 
-## ⚡ Quick Start
+## ⚡ Direct API Access
 
-### For Claude Desktop
+**API Endpoint:** `https://7lqg8v66p1.execute-api.us-east-1.amazonaws.com/prod/api/search`
 
-**Step 1:** Configure in Claude Desktop settings:
-
-```json
-{
-  "mcpServers": {
-    "veridano": {
-      "command": "python",
-      "args": ["-c", "import requests; exec(requests.get('https://raw.githubusercontent.com/Veridano/veridano-mcp-server/main/mcp_client.py').text)"]
-    }
-  }
-}
+**Example Query:**
+```bash
+curl -X POST "https://7lqg8v66p1.execute-api.us-east-1.amazonaws.com/prod/api/search" \
+  -H "Content-Type: application/json" \
+  -d '{"query": "CISA ransomware advisory", "top_k": 5}'
 ```
 
-**Step 2:** Restart Claude Desktop
-
-### For ChatGPT
-
-**Step 1:** Go to ChatGPT Settings > Beta Features > Model Context Protocol
-
-**Step 2:** Add MCP Server:
-- **Name**: `Veridano Intelligence`
-- **URL**: `https://raw.githubusercontent.com/Veridano/veridano-mcp-server/main/mcp_client.py`
-- **Type**: `Python Script`
-
-**Step 3:** Enable the server
-
-**That's it!** Start querying: *"Search CISA advisories for ransomware threats"*
+**That's it!** No installation, no configuration, no authentication required.
 
 ## 🎯 Overview
 
@@ -66,16 +47,15 @@ The platform continuously monitors and indexes content from:
 | **US-CERT** | 8 hours | Cybersecurity Alerts, Analysis Reports, IOCs |
 | **FedRAMP** | Weekly | Cloud Security Controls, Compliance Frameworks |
 
-## 🤖 MCP Tools Available
+## 📊 API Parameters
 
-### semantic_search
-Search across all government cybersecurity data sources with vector similarity.
+**Required:**
+- `query` (string) - Search query for cybersecurity intelligence
 
-### get_cve_details  
-Get detailed CVE vulnerability information from NIST NVD.
-
-### threat_intelligence_summary
-Get summarized threat intelligence for specific threats or attack patterns.
+**Optional:**
+- `top_k` (integer) - Number of results to return (default: 5)
+- `min_score` (float) - Minimum similarity score 0.0-1.0 (default: 0.6)  
+- `sources` (array) - Filter by specific sources: `["CISA", "FBI", "NIST", "DHS", "NSA", "USCYBERCOM", "White House", "NVD", "ICS-CERT", "US-CERT", "FedRAMP"]`
 
 ## 📝 Example Queries
 
