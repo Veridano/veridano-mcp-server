@@ -8,27 +8,18 @@ Access 11 U.S. government cybersecurity data sources through a hosted API servic
 
 ### For Claude Desktop
 
-**Step 1:** Download the MCP client:
-```bash
-curl -o ~/veridano_mcp.py https://raw.githubusercontent.com/Veridano/veridano-mcp-server/main/mcp_client.py
-chmod +x ~/veridano_mcp.py
-```
+**Step 1:** Open Claude Desktop application
 
-**Step 2:** Open Claude Desktop Settings → Developer → Edit Config
+**Step 2:** Click **Settings** → **Connectors**
 
-**Step 3:** Add this JSON configuration:
-```json
-{
-  "mcpServers": {
-    "veridano": {
-      "command": "python",
-      "args": ["~/veridano_mcp.py"]
-    }
-  }
-}
-```
+**Step 3:** Click **Add Connector**
 
-**Step 4:** Save the file and restart Claude Desktop
+**Step 4:** Configure the Veridano connector:
+- **Name**: `Veridano Intelligence`
+- **Server URL**: `https://7lqg8v66p1.execute-api.us-east-1.amazonaws.com/prod/mcp`
+- **Authentication**: None required
+
+**Step 5:** Click **Save** and enable the connector
 
 ### For ChatGPT
 
