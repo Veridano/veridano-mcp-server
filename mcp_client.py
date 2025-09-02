@@ -14,7 +14,7 @@ from mcp.server import Server
 from mcp import types
 
 # Veridano API endpoint - no authentication required
-VERIDANO_ENDPOINT = "https://7lqg8v66p1.execute-api.us-east-1.amazonaws.com/prod/api/search"
+VERIDANO_ENDPOINT = "https://7lqg8v66p1.execute-api.us-east-1.amazonaws.com/prod/mcp"
 
 # Initialize MCP server
 server = Server("veridano-intelligence")
@@ -24,7 +24,7 @@ async def list_tools() -> List[types.Tool]:
     """List available Veridano intelligence tools"""
     return [
         types.Tool(
-            name="semantic_search",
+            name="veridano_search",
             description="Search across 11 U.S. government cybersecurity data sources using semantic similarity",
             inputSchema={
                 "type": "object",
@@ -94,7 +94,7 @@ async def call_tool(name: str, arguments: Dict[str, Any]) -> List[types.TextCont
     try:
         async with aiohttp.ClientSession() as session:
             
-            if name == "semantic_search":
+            if name == "veridano_search":
                 query = arguments.get("query", "")
                 top_k = arguments.get("top_k", 5)
                 min_score = arguments.get("min_score", 0.6)

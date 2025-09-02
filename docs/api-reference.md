@@ -2,13 +2,13 @@
 
 ## Base Configuration
 
-**MCP Server Endpoint**: `https://api.veridano.com/mcp`  
-**Protocol Version**: MCP 2.0  
-**Authentication**: AWS Cognito Client Credentials
+**MCP Server Endpoint**: `https://7lqg8v66p1.execute-api.us-east-1.amazonaws.com/prod/mcp`  
+**Protocol Version**: MCP 2024-11-05  
+**Authentication**: None required
 
 ## Available Tools
 
-### semantic_search
+### veridano_search
 
 Perform vector similarity search across all government cybersecurity intelligence sources.
 
@@ -26,7 +26,7 @@ Perform vector similarity search across all government cybersecurity intelligenc
 **Example Request:**
 ```json
 {
-  "tool": "semantic_search",
+  "tool": "veridano_search",
   "parameters": {
     "query": "APT29 persistence mechanisms Windows",
     "top_k": 15,
@@ -205,7 +205,7 @@ Direct CVE and vulnerability information lookup.
 ```python
 # ✅ Good - Focused query with source filtering
 await client.call_tool(
-    "semantic_search",
+    "veridano_search",
     query="Log4j vulnerability mitigation guidance",
     sources=["CISA", "NIST"],
     top_k=10,
@@ -214,7 +214,7 @@ await client.call_tool(
 
 # ❌ Poor - Vague query without filtering
 await client.call_tool(
-    "semantic_search", 
+    "veridano_search", 
     query="cybersecurity",
     top_k=100,
     min_score=0.1
@@ -255,7 +255,7 @@ async def monitor_new_threats():
     while True:
         # Check for new high-severity threats
         recent_threats = await client.call_tool(
-            "semantic_search",
+            "veridano_search",
             query="critical vulnerability zero-day active exploitation",
             sources=["CISA", "FBI", "US-CERT"],
             timeframe="last_24_hours",

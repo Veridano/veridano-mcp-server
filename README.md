@@ -10,16 +10,27 @@ Access 11 U.S. government cybersecurity data sources through a hosted API servic
 
 **Step 1:** Open Claude Desktop application
 
-**Step 2:** Click **Settings** → **Connectors**
+**Step 2:** Click **Settings** → **Features** → **Model Context Protocol**
 
-**Step 3:** Click **Add Connector**
+**Step 3:** Add new MCP server configuration:
+```json
+{
+  "mcpServers": {
+    "veridano": {
+      "command": "python",
+      "args": ["/tmp/veridano_mcp_client.py"]
+    }
+  }
+}
+```
 
-**Step 4:** Configure the Veridano connector:
-- **Name**: `Veridano Intelligence`
-- **Server URL**: `https://7lqg8v66p1.execute-api.us-east-1.amazonaws.com/prod/mcp`
-- **Authentication**: None required
+**Step 4:** Download the MCP client:
+```bash
+curl -o /tmp/veridano_mcp_client.py https://raw.githubusercontent.com/Veridano/veridano-mcp-server/main/mcp_client.py
+chmod +x /tmp/veridano_mcp_client.py
+```
 
-**Step 5:** Click **Save** and enable the connector
+**Step 5:** Restart Claude Desktop
 
 ### For ChatGPT
 
@@ -32,7 +43,7 @@ Access 11 U.S. government cybersecurity data sources through a hosted API servic
 
 **Step 3:** Enable the server
 
-**That's it!** Start querying: *"Search CISA advisories for ransomware threats"*
+**That's it!** Start querying: *"Use veridano_search to find CISA ransomware advisories"*
 
 ## 🔗 Direct API Access  
 
@@ -87,16 +98,16 @@ The platform continuously monitors and indexes content from:
 ## 📝 Example Queries
 
 **Vulnerability Research:**
-- *"Search for CVE-2024-1234 vulnerability details"*
-- *"Find recent Windows remote code execution vulnerabilities"*
+- *"Use veridano_search to find CVE-2024-3400 Palo Alto vulnerability details"*
+- *"Search for recent Windows remote code execution vulnerabilities"*
 
 **Threat Intelligence:**  
-- *"Search CISA advisories for ransomware threats"*
-- *"Get APT threat intelligence summary for last 30 days"*
+- *"Use veridano_search for Chinese APT Salt Typhoon telecommunications targeting"*
+- *"Find Ghost Cring ransomware IOCs MITRE ATT&CK"*
 
 **Compliance Research:**
-- *"Find FedRAMP moderate baseline requirements"*
-- *"Search White House cybersecurity executive orders"*
+- *"Search for NIST zero trust architecture framework"*
+- *"Find latest CISA emergency directives 2025"*
 
 ## 🏗️ Architecture
 
@@ -117,11 +128,11 @@ AI Agent → MCP Client → Veridano MCP Server → Government Data Sources
 Once configured, you can immediately start querying cybersecurity intelligence:
 
 **Ask Claude Desktop:**
-- *"Search for recent CISA ransomware advisories"*
-- *"Get details for CVE-2024-1234"* 
-- *"Find APT threat intelligence from the last 30 days"*
+- *"Use veridano_search to find recent CISA ransomware advisories"*
+- *"Search for CVE-2024-1234 details using veridano_search"* 
+- *"Find APT threat intelligence from 2025 using veridano_search"*
 - *"Search for industrial control system vulnerabilities"*
-- *"Find White House cybersecurity executive orders"*
+- *"Find White House cybersecurity executive orders from 2025"*
 
 ## 📊 Performance
 

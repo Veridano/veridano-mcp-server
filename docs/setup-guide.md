@@ -59,7 +59,7 @@ cd veridano-mcp-server
 
 ```python
 # Test query in Claude Desktop:
-"Search for recent CISA advisories about ransomware"
+"Use veridano_search to find recent CISA advisories about ransomware"
 ```
 
 ---
@@ -71,7 +71,7 @@ cd veridano-mcp-server
 ### Environment Variables (Optional)
 
 ```bash
-export VERIDANO_ENDPOINT="https://api.veridano.com/mcp"
+export VERIDANO_ENDPOINT="https://7lqg8v66p1.execute-api.us-east-1.amazonaws.com/prod/mcp"
 export VERIDANO_REGION="us-east-1"
 # Uncomment for authenticated access:
 # export VERIDANO_CLIENT_ID="your_client_id"  
@@ -95,11 +95,7 @@ async def test_veridano_connection():
     """Test basic connectivity to Veridano"""
     
     client = MCPClient(
-        endpoint=os.getenv('VERIDANO_ENDPOINT'),
-        auth_method='cognito_client_credentials',
-        client_id=os.getenv('VERIDANO_CLIENT_ID'),
-        client_secret=os.getenv('VERIDANO_CLIENT_SECRET'),
-        region=os.getenv('VERIDANO_REGION', 'us-east-1')
+        endpoint=os.getenv('VERIDANO_ENDPOINT', 'https://7lqg8v66p1.execute-api.us-east-1.amazonaws.com/prod/mcp')
     )
     
     try:
@@ -117,7 +113,7 @@ async def test_veridano_connection():
         # Test 3: Simple search
         print("\n🔍 Testing search functionality...")
         result = await client.call_tool(
-            "semantic_search",
+            "veridano_search",
             query="ransomware threat intelligence",
             top_k=3,
             min_score=0.7
@@ -211,7 +207,7 @@ class ThreatIntelligenceAgent:
         """Research a specific threat across all sources"""
         
         # Search for threat intelligence
-        intel = await self.veridano.semantic_search(
+        intel = await self.veridano.veridano_search(
             query=f"{threat_name} tactics techniques procedures",
             sources=["NSA", "FBI", "USCYBERCOM"],
             top_k=20,
@@ -225,7 +221,7 @@ class ThreatIntelligenceAgent:
         )
         
         # Search for mitigation guidance
-        mitigations = await self.veridano.semantic_search(
+        mitigations = await self.veridano.veridano_search(
             query=f"{threat_name} mitigation defense recommendations",
             sources=["CISA", "NIST"],
             top_k=10
@@ -268,7 +264,7 @@ class CyberSecurityChatBot:
             )
         elif any(word in question.lower() for word in ["policy", "compliance", "framework"]):
             # Compliance question
-            results = await self.veridano.semantic_search(
+            results = await self.veridano.veridano_search(
                 query=question,
                 sources=["FedRAMP", "NIST", "White House"],
                 top_k=10
@@ -281,7 +277,7 @@ class CyberSecurityChatBot:
             )
         else:
             # General threat intelligence
-            results = await self.veridano.semantic_search(
+            results = await self.veridano.veridano_search(
                 query=question,
                 top_k=15,
                 min_score=0.7
@@ -358,7 +354,7 @@ class ThreatMonitoringAgent:
                 )
                 
                 # Check for new emergency directives
-                emergency_alerts = await self.veridano.semantic_search(
+                emergency_alerts = await self.veridano.veridano_search(
                     query="emergency directive critical alert immediate action",
                     sources=["CISA", "US-CERT"],
                     timeframe="last_24_hours",
@@ -366,7 +362,7 @@ class ThreatMonitoringAgent:
                 )
                 
                 # Check for APT activity
-                apt_activity = await self.veridano.semantic_search(
+                apt_activity = await self.veridano.veridano_search(
                     query="advanced persistent threat campaign attribution",
                     sources=["NSA", "FBI", "USCYBERCOM"],
                     timeframe="last_48_hours", 
@@ -466,8 +462,8 @@ def cache_results(ttl=300):
 
 class CachedVeridanoClient(VeridanoClient):
     @cache_results(ttl=600)  # 10 minute cache
-    async def semantic_search(self, **kwargs):
-        return await super().semantic_search(**kwargs)
+    async def veridano_search(self, **kwargs):
+        return await super().veridano_search(**kwargs)
 ```
 
 ## Error Handling & Resilience
@@ -485,7 +481,7 @@ async def resilient_search(client, **search_params):
     
     for attempt in range(max_retries):
         try:
-            result = await client.semantic_search(**search_params)
+            result = await client.veridano_search(**search_params)
             return result
             
         except QuotaExceededException as e:
@@ -618,7 +614,7 @@ class MetricsCollector:
         start_time = time.time()
         
         try:
-            result = await client.semantic_search(**params)
+            result = await client.veridano_search(**params)
             response_time = time.time() - start_time
             
             self.query_count += 1
@@ -662,14 +658,14 @@ print('Endpoint:', os.getenv('VERIDANO_ENDPOINT'))
 #### Network Connectivity
 ```bash
 # Test endpoint reachability
-curl -I https://api.veridano.com/mcp
+curl -I https://7lqg8v66p1.execute-api.us-east-1.amazonaws.com/prod/mcp
 ```
 
 #### Rate Limiting
 ```python
 # Handle rate limits gracefully
 try:
-    result = await client.semantic_search(query="test")
+    result = await client.veridano_search(query="test")
 except QuotaExceededException as e:
     retry_after = e.retry_after
     print(f"Rate limited - retry after {retry_after}s")
@@ -703,7 +699,7 @@ async def performance_test():
     
     for query in test_queries:
         start = time.time()
-        result = await client.semantic_search(query=query, top_k=5)
+        result = await client.veridano_search(query=query, top_k=5)
         response_time = time.time() - start
         
         response_times.append(response_time)
