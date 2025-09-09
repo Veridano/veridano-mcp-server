@@ -2,7 +2,7 @@
 
 > **Cybersecurity intelligence API for AI agents - Hosted service, no setup required**
 
-Access 11 U.S. government cybersecurity data sources through a hosted API service.
+Access 7+ U.S. government cybersecurity agencies through a hosted API service with 172+ curated intelligence documents.
 
 ## ⚡ Quick Start
 
@@ -12,25 +12,15 @@ Access 11 U.S. government cybersecurity data sources through a hosted API servic
 
 **Step 2:** Click **Settings** → **Features** → **Model Context Protocol**
 
-**Step 3:** Add new MCP server configuration:
-```json
-{
-  "mcpServers": {
-    "veridano": {
-      "command": "python",
-      "args": ["/tmp/veridano_mcp_client.py"]
-    }
-  }
-}
-```
+**Step 3:** Click **Add custom connector**
 
-**Step 4:** Download the MCP client:
-```bash
-curl -o /tmp/veridano_mcp_client.py https://raw.githubusercontent.com/Veridano/veridano-mcp-server/main/mcp_client.py
-chmod +x /tmp/veridano_mcp_client.py
-```
+**Step 4:** Fill in the connector details:
+- **Name**: `Veridano`
+- **Remote MCP server URL**: `https://7lqg8v66p1.execute-api.us-east-1.amazonaws.com/prod/mcp`
 
-**Step 5:** Restart Claude Desktop
+**Step 5:** Click **Add** then restart Claude Desktop
+
+**That's it!** No downloads required - Claude connects directly to the hosted MCP server.
 
 ### For ChatGPT
 
@@ -61,7 +51,7 @@ Veridano provides AI agents with comprehensive access to U.S. government cyberse
 
 ### Key Capabilities
 
-- **Real-time intelligence search** across 11 USG cybersecurity data sources  
+- **Real-time intelligence search** across 7+ USG cybersecurity agencies  
 - **Vector similarity search** with semantic understanding of threat context
 - **Zero-config setup** - works immediately after installation
 - **High-performance architecture** supporting concurrent agent sessions
@@ -137,7 +127,7 @@ Once configured, you can immediately start querying cybersecurity intelligence:
 ## 📊 Performance
 
 - **Response time**: 150-300ms average
-- **Database**: 500,000+ government cybersecurity documents  
+- **Database**: 172+ curated government cybersecurity documents  
 - **Updates**: Every 4-12 hours for time-sensitive sources
 - **Uptime**: 99.9% availability
 
