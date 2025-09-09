@@ -26,10 +26,9 @@ Access 7+ U.S. government cybersecurity agencies through a hosted API service wi
 
 **Step 1:** Go to ChatGPT Settings > Beta Features > Model Context Protocol
 
-**Step 2:** Add MCP Server:
+**Step 2:** Add Custom MCP Server:
 - **Name**: `Veridano Intelligence`
-- **URL**: `https://raw.githubusercontent.com/Veridano/veridano-mcp-server/main/mcp_client.py`
-- **Type**: `Python Script`
+- **Server URL**: `https://7lqg8v66p1.execute-api.us-east-1.amazonaws.com/prod/mcp`
 
 **Step 3:** Enable the server
 
@@ -37,7 +36,7 @@ Access 7+ U.S. government cybersecurity agencies through a hosted API service wi
 
 ## 🔗 Direct API Access  
 
-**Primary method while MCP integration is in development:**
+**For direct REST API access without MCP:**
 
 ```bash
 curl -X POST "https://7lqg8v66p1.execute-api.us-east-1.amazonaws.com/prod/api/search" \
@@ -160,21 +159,25 @@ Once configured, you can immediately start querying cybersecurity intelligence:
 
 ## 💡 Alternative Setup Methods
 
-### Local Installation
+### Local Development Setup
+For developers who want to modify or test the MCP client locally:
+
 ```bash
 git clone https://github.com/Veridano/veridano-mcp-server.git
 cd veridano-mcp-server
 
-# Configure with full path in Claude Desktop:
+# For Claude Desktop development (legacy method):
 {
   "mcpServers": {
-    "veridano": {
+    "veridano-local": {
       "command": "python",
       "args": ["/full/path/to/veridano-mcp-server/mcp_client.py"]
     }
   }
 }
 ```
+
+**Note**: Custom Connector (direct URL) is recommended for regular usage.
 
 ### Enterprise Options
 Contact enterprise@veridano.com for:
