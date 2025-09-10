@@ -2,7 +2,7 @@
 
 > **Cybersecurity intelligence API for AI agents - Hosted service, no setup required**
 
-Access 7+ U.S. government cybersecurity agencies through a hosted API service with 172+ curated intelligence documents.
+Access 7+ U.S. government cybersecurity agencies through a hosted API service with **2,000+ curated intelligence documents** including the complete CISA Known Exploited Vulnerabilities (KEV) catalog.
 
 ## ⚡ Quick Start
 
@@ -51,28 +51,30 @@ Veridano provides AI agents with comprehensive access to U.S. government cyberse
 ### Key Capabilities
 
 - **Real-time intelligence search** across 7+ USG cybersecurity agencies  
+- **Complete CISA KEV catalog** - All 1,413+ known exploited vulnerabilities with BOD 22-01 compliance data
 - **Vector similarity search** with semantic understanding of threat context
 - **Zero-config setup** - works immediately after installation
 - **High-performance architecture** supporting concurrent agent sessions
-- **Automated data ingestion** with regular updates from government sources
+- **Enhanced automated data ingestion** with complete source coverage and regular updates
 
 ## 🏛️ Data Sources
 
 The platform continuously monitors and indexes content from:
 
-| Source | Update Frequency | Content Type |
-|--------|------------------|--------------|
-| **CISA** | 4 hours (RSS), Weekly (Comprehensive) | Advisories, Emergency Directives, Alerts |
-| **FBI Cyber** | Weekly | Private Industry Notifications, Cyber Bulletins |
-| **NIST** | 6 hours (NVD), Weekly (Publications) | CVE Database, Cybersecurity Framework, SP 800 Series |
-| **DHS** | Weekly | Sector-Specific Guidance, Cybersecurity Directives |
-| **NSA Cybersecurity** | Weekly | APT Reports, Cryptographic Guidance, Technical Advisories |
-| **USCYBERCOM** | Weekly | Threat Intelligence, Attribution Reports |
-| **White House** | Daily | Executive Orders, National Cyber Strategy, Policy Directives |
-| **NVD** | 12 hours | CVE Vulnerability Database, CVSS Scoring |
-| **ICS-CERT** | Weekly | Industrial Control Systems Advisories |
-| **US-CERT** | 8 hours | Cybersecurity Alerts, Analysis Reports, IOCs |
-| **FedRAMP** | Weekly | Cloud Security Controls, Compliance Frameworks |
+| Source | Update Frequency | Content Type | Documents |
+|--------|------------------|--------------|-----------|
+| **CISA KEV** | **6 hours** | **Complete Known Exploited Vulnerabilities Catalog** | **1,413** |
+| **CISA** | 1 hour (RSS), Weekly (Comprehensive) | Advisories, Emergency Directives, Alerts | 400+ |
+| **NIST SP 800** | **Daily** | **Complete SP 800 Series Publications** | **200+** |
+| **FBI IC3** | 12 hours | Private Industry Cyber Advisories, Crime Alerts | 50+ |
+| **DHS BODs** | Daily | Binding Operational Directives, Federal Compliance | 25+ |
+| **FBI Cyber** | Weekly | Private Industry Notifications, Cyber Bulletins | 15+ |
+| **NIST NVD** | 6 hours | CVE Database, CVSS Scoring | Variable |
+| **NSA Cybersecurity** | Weekly | APT Reports, Cryptographic Guidance, Technical Advisories | 25+ |
+| **USCYBERCOM** | Weekly | Threat Intelligence, Attribution Reports | 20+ |
+| **White House** | Daily | Executive Orders, National Cyber Strategy, Policy Directives | 15+ |
+| **ICS-CERT** | Weekly | Industrial Control Systems Advisories | 30+ |
+| **US-CERT** | 8 hours | Cybersecurity Alerts, Analysis Reports, IOCs | 25+ |
 
 ## 📊 API Parameters
 
@@ -87,48 +89,62 @@ The platform continuously monitors and indexes content from:
 ## 📝 Example Queries
 
 **Vulnerability Research:**
-- *"Use veridano_search to find CVE-2024-3400 Palo Alto vulnerability details"*
-- *"Search for recent Windows remote code execution vulnerabilities"*
+- *"Use veridano_search to find CVE-2024-3400 from the CISA KEV catalog"*
+- *"Search for all known exploited vulnerabilities in Microsoft Exchange"*
+- *"Find BOD 22-01 compliance deadlines for recent KEV additions"*
 
 **Threat Intelligence:**  
 - *"Use veridano_search for Chinese APT Salt Typhoon telecommunications targeting"*
 - *"Find Ghost Cring ransomware IOCs MITRE ATT&CK"*
 
 **Compliance Research:**
-- *"Search for NIST zero trust architecture framework"*
-- *"Find latest CISA emergency directives 2025"*
+- *"Search for complete NIST SP 800-207 zero trust architecture framework"*
+- *"Find all CISA binding operational directives for federal compliance"*
+- *"Search for BOD 22-01 vulnerability remediation requirements"*
 
 ## 🏗️ Architecture
 
 ```
-AI Agent → MCP Client → Veridano MCP Server → Government Data Sources
+AI Agent → MCP Client → Veridano MCP Server → Enhanced Scraper Network → Government Data Sources
 ```
 
+### Enhanced Data Collection (September 2025)
+Veridano now operates **5 specialized enhanced scrapers** that provide complete coverage of critical government cybersecurity sources:
+
+1. **CISA KEV Complete Scraper** - Processes all 1,413 known exploited vulnerabilities every 6 hours
+2. **NIST SP 800 Complete Scraper** - Collects the full SP 800 publication series daily  
+3. **CISA RSS Real-time Scraper** - Monitors 9 CISA RSS feeds hourly for immediate threat intelligence
+4. **FBI IC3 Complete Scraper** - Harvests all private industry cyber advisories every 12 hours
+5. **CISA BOD Complete Scraper** - Maintains comprehensive federal compliance directive coverage
+
 ### Technical Stack
-- **Compute**: AWS Lambda (Python 3.9)
-- **AI/ML**: Amazon Bedrock (Titan Embeddings) 
-- **Database**: Aurora PostgreSQL with pgvector
-- **Storage**: S3 for document storage
+- **Compute**: AWS Lambda (Python 3.11) with 5 specialized functions
+- **AI/ML**: Amazon Bedrock (Titan V2 Embeddings, 1024 dimensions) 
+- **Database**: Aurora PostgreSQL with pgvector for semantic search
+- **Storage**: S3 with organized folder structure by source and type
 - **Protocol**: Model Context Protocol (MCP)
-- **Scheduling**: EventBridge for automated updates
+- **Scheduling**: EventBridge cron scheduling for automated real-time updates
+- **Processing**: BeautifulSoup4 + requests for robust content extraction
 
 ## 🚀 Usage Examples
 
 Once configured, you can immediately start querying cybersecurity intelligence:
 
 **Ask Claude Desktop:**
-- *"Use veridano_search to find recent CISA ransomware advisories"*
-- *"Search for CVE-2024-1234 details using veridano_search"* 
-- *"Find APT threat intelligence from 2025 using veridano_search"*
-- *"Search for industrial control system vulnerabilities"*
-- *"Find White House cybersecurity executive orders from 2025"*
+- *"Use veridano_search to find all known exploited vulnerabilities in VMware"*
+- *"Search for CISA KEV entries with federal compliance deadlines in 2025"* 
+- *"Find complete NIST SP 800 cybersecurity framework documents"*
+- *"Search for BOD 22-01 vulnerability remediation requirements"*
+- *"Use veridano_search for FBI IC3 private industry cyber advisories"*
 
 ## 📊 Performance
 
 - **Response time**: 150-300ms average
-- **Database**: 172+ curated government cybersecurity documents  
-- **Updates**: Every 4-12 hours for time-sensitive sources
-- **Uptime**: 99.9% availability
+- **Database**: **2,000+ curated government cybersecurity documents**
+- **CISA KEV Coverage**: **100% complete** (1,413 vulnerabilities)
+- **Updates**: Every 1-6 hours for real-time sources, daily for comprehensive catalogs
+- **Uptime**: 99.9+ availability with enhanced infrastructure
+- **Enhanced Processing**: 5 specialized scrapers with automated S3 storage and dashboard integration
 
 ## 📝 Response Format
 
