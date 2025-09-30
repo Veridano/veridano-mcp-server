@@ -1,8 +1,8 @@
 # Veridano Intelligence API
 
-> **Cybersecurity intelligence API for AI agents - Hosted service, no setup required**
+> **Government cybersecurity intelligence MCP server for AI agents**
 
-Access 7+ U.S. government cybersecurity agencies through a hosted API service with **2,000+ curated intelligence documents** including the complete CISA Known Exploited Vulnerabilities (KEV) catalog.
+Access **14 US, UK, and EU government cybersecurity agencies** through a hosted MCP server with **6,000+ curated intelligence documents** including CISA KEV, MITRE ATT&CK, NIST SP 800, and international threat intelligence.
 
 ## ⚡ Quick Start
 
@@ -50,57 +50,104 @@ Veridano provides AI agents with comprehensive access to U.S. government cyberse
 
 ### Key Capabilities
 
-- **Real-time intelligence search** across 7+ USG cybersecurity agencies  
-- **Complete CISA KEV catalog** - All 1,413+ known exploited vulnerabilities with BOD 22-01 compliance data
-- **Vector similarity search** with semantic understanding of threat context
-- **Zero-config setup** - works immediately after installation
-- **High-performance architecture** supporting concurrent agent sessions
-- **Enhanced automated data ingestion** with complete source coverage and regular updates
+- **Real-time intelligence search** across 14 US/UK/EU government agencies
+- **7 MCP tools** for threat intelligence, CVE analysis, and APT tracking
+- **Complete CISA KEV catalog** - All known exploited vulnerabilities with BOD 22-01 compliance
+- **MITRE ATT&CK integration** - 1,450+ techniques, groups, and mitigations
+- **International coverage** - NCSC (UK) and ENISA (EU) threat intelligence
+- **Vector similarity search** with semantic understanding via AWS Titan V2 embeddings
+- **Query expansion** - Automatic abbreviation expansion (BOD, KEV, APT, etc.)
+- **Citation support** - Proper APA/MLA citations for government sources
+- **Zero-config setup** - Works immediately after MCP server connection
+- **High-performance** - Sub-second response times with Aurora + pgvector
 
-## 🏛️ Data Sources
+## 🏛️ Data Sources (14 Agencies)
 
 The platform continuously monitors and indexes content from:
 
+### US Government Sources
 | Source | Update Frequency | Content Type | Documents |
 |--------|------------------|--------------|-----------|
-| **CISA KEV** | **6 hours** | **Complete Known Exploited Vulnerabilities Catalog** | **1,413** |
-| **CISA** | 1 hour (RSS), Weekly (Comprehensive) | Advisories, Emergency Directives, Alerts | 400+ |
-| **NIST SP 800** | **Daily** | **Complete SP 800 Series Publications** | **200+** |
-| **FBI IC3** | 12 hours | Private Industry Cyber Advisories, Crime Alerts | 50+ |
-| **DHS BODs** | Daily | Binding Operational Directives, Federal Compliance | 25+ |
-| **FBI Cyber** | Weekly | Private Industry Notifications, Cyber Bulletins | 15+ |
-| **NIST NVD** | 6 hours | CVE Database, CVSS Scoring | Variable |
-| **NSA Cybersecurity** | Weekly | APT Reports, Cryptographic Guidance, Technical Advisories | 25+ |
-| **USCYBERCOM** | Weekly | Threat Intelligence, Attribution Reports | 20+ |
-| **White House** | Daily | Executive Orders, National Cyber Strategy, Policy Directives | 15+ |
-| **ICS-CERT** | Weekly | Industrial Control Systems Advisories | 30+ |
-| **US-CERT** | 8 hours | Cybersecurity Alerts, Analysis Reports, IOCs | 25+ |
+| **CISA** | 1-6 hours | KEV, Advisories, BODs, Emergency Directives | 400+ |
+| **FBI IC3** | 12 hours | Private Industry Advisories | 50+ |
+| **NIST** | 6 hours | SP 800 Series, CVE Database | 200+ |
+| **DHS** | Daily | Binding Operational Directives | 25+ |
+| **NSA** | Weekly | APT Reports, Cryptographic Guidance | 25+ |
+| **USCYBERCOM** | Weekly | Threat Intelligence, Attribution | 20+ |
+| **Treasury/FinCEN** | Daily | Financial Cyber Crime | 15+ |
+| **DoD/DC3** | Daily | Defense Cyber Crime | 30+ |
+| **White House** | Daily | Executive Orders, Policy | 15+ |
+| **US-CERT** | 8 hours | Alerts, Analysis Reports | 25+ |
+| **ICS-CERT** | Weekly | Industrial Control Systems | 30+ |
 
-## 📊 API Parameters
+### Frameworks & International
+| Source | Update Frequency | Content Type | Documents |
+|--------|------------------|--------------|-----------|
+| **MITRE ATT&CK** | Weekly | Techniques, Groups, Mitigations | 1,450+ |
+| **NCSC (UK)** | Daily | UK Threat Reports, Guidance | ~2,000/year |
+| **ENISA (EU)** | Daily | EU Cybersecurity Policy | ~500/year |
 
-**Required:**
-- `query` (string) - Search query for cybersecurity intelligence
+**Total Coverage:** ~6,000+ documents across 14 agencies
 
-**Optional:**
-- `top_k` (integer) - Number of results to return (default: 5)
-- `min_score` (float) - Minimum similarity score 0.0-1.0 (default: 0.6)  
-- `sources` (array) - Filter by specific sources: `["CISA", "FBI", "NIST", "DHS", "NSA", "USCYBERCOM", "White House", "NVD", "ICS-CERT", "US-CERT", "FedRAMP"]`
+## 🔧 MCP Tools Available
+
+Once connected, AI agents have access to 7 specialized tools:
+
+1. **veridano_search** - Semantic search across all sources
+   - Parameters: `query`, `top_k`, `sources`
+   - Best for: General threat intelligence queries
+
+2. **get_latest** - Recent documents (last N hours)
+   - Parameters: `hours`, `limit`, `sources`, `critical_only`
+   - Best for: "What's new?", breaking alerts
+
+3. **batch_search** - Multiple queries at once
+   - Parameters: `queries` (array of query objects)
+   - Best for: Multi-topic research, 3-10x faster
+
+4. **analyze_threat_trends** - Historical trend analysis
+   - Parameters: `threat_category`, `days`
+   - Best for: Temporal patterns, activity analysis
+
+5. **compare_vulnerabilities** - Side-by-side CVE comparison
+   - Parameters: `cve_ids` (array)
+   - Best for: Vulnerability prioritization
+
+6. **get_remediation_guidance** - Mitigation steps
+   - Parameters: `threat_or_cve`
+   - Best for: Actionable remediation advice
+
+7. **track_threat_actor** - APT group tracking
+   - Parameters: `actor_name`
+   - Best for: APT profiling and attribution
+
+## 📊 Search Parameters
+
+**veridano_search parameters:**
+- `query` (string) - Search query (supports query expansion)
+- `top_k` (integer) - Number of results (default: 5)
+- `min_score` (float) - Similarity score 0.0-1.0 (default: 0.6)
+- `sources` (array) - Filter: `["CISA", "FBI", "NIST", "DHS", "NSA", "USCYBERCOM", "MITRE", "NCSC", "ENISA", "Treasury", "DoD", "White House", "US-CERT", "ICS-CERT"]`
 
 ## 📝 Example Queries
 
 **Vulnerability Research:**
-- *"Use veridano_search to find CVE-2024-3400 from the CISA KEV catalog"*
-- *"Search for all known exploited vulnerabilities in Microsoft Exchange"*
-- *"Find BOD 22-01 compliance deadlines for recent KEV additions"*
+- *"Use veridano_search to find CVE-2024-3400 across all sources"*
+- *"Compare CVE-2024-3400 and CVE-2023-44487 using compare_vulnerabilities"*
+- *"Get remediation guidance for Log4Shell"*
+- *"Find BOD 22-01 compliance requirements from CISA"*
 
-**Threat Intelligence:**  
-- *"Use veridano_search for Chinese APT Salt Typhoon telecommunications targeting"*
-- *"Find Ghost Cring ransomware IOCs MITRE ATT&CK"*
+**Threat Intelligence:**
+- *"Track APT29 activity using track_threat_actor"*
+- *"Use veridano_search for ransomware guidance from CISA and FBI"*
+- *"Analyze ransomware trends over the last 90 days"*
+- *"Show me critical alerts from the last 24 hours using get_latest"*
 
-**Compliance Research:**
-- *"Search for complete NIST SP 800-207 zero trust architecture framework"*
-- *"Find all CISA binding operational directives for federal compliance"*
-- *"Search for BOD 22-01 vulnerability remediation requirements"*
+**Compliance & Frameworks:**
+- *"Search for NIST SP 800-207 zero trust architecture"*
+- *"Find all CISA binding operational directives"*
+- *"Search for MITRE ATT&CK techniques used by APT29"*
+- *"Get recent UK threat intelligence from NCSC"*
 
 ## 🏗️ Architecture
 
@@ -108,61 +155,93 @@ The platform continuously monitors and indexes content from:
 AI Agent → MCP Client → Veridano MCP Server → Enhanced Scraper Network → Government Data Sources
 ```
 
-### Enhanced Data Collection (September 2025)
-Veridano now operates **5 specialized enhanced scrapers** that provide complete coverage of critical government cybersecurity sources:
+### Data Collection (September 2025)
+Veridano operates **20 specialized scrapers** for comprehensive government intelligence:
 
-1. **CISA KEV Complete Scraper** - Processes all 1,413 known exploited vulnerabilities every 6 hours
-2. **NIST SP 800 Complete Scraper** - Collects the full SP 800 publication series daily  
-3. **CISA RSS Real-time Scraper** - Monitors 9 CISA RSS feeds hourly for immediate threat intelligence
-4. **FBI IC3 Complete Scraper** - Harvests all private industry cyber advisories every 12 hours
-5. **CISA BOD Complete Scraper** - Maintains comprehensive federal compliance directive coverage
+**Enhanced Scrapers (8):**
+- CISA RSS (4 hours), CISA KEV (6 hours), CISA BOD (daily)
+- FBI IC3 (12 hours), NIST Comprehensive (6 hours), NIST SP 800 (daily)
+- DoD/DC3 (daily), Treasury/FinCEN (daily)
+
+**Specialized Intelligence (3):**
+- MITRE ATT&CK (weekly) - 1,450+ techniques, groups, mitigations
+- International Sources (daily) - NCSC (UK), ENISA (EU)
+- Real-time Alerting - Critical event notifications
+
+**Legacy Scrapers (9):**
+- NSA, USCYBERCOM, White House, US-CERT, ICS-CERT, NVD, FedRAMP
 
 ### Technical Stack
-- **Compute**: AWS Lambda (Python 3.11) with 5 specialized functions
-- **AI/ML**: Amazon Bedrock (Titan V2 Embeddings, 1024 dimensions) 
-- **Database**: Aurora PostgreSQL with pgvector for semantic search
-- **Storage**: S3 with organized folder structure by source and type
-- **Protocol**: Model Context Protocol (MCP)
-- **Scheduling**: EventBridge cron scheduling for automated real-time updates
-- **Processing**: BeautifulSoup4 + requests for robust content extraction
+- **Compute**: AWS Lambda (29 functions, Python 3.11, ARM64)
+- **AI/ML**: Amazon Bedrock (Titan V2 Embeddings, 1024 dimensions)
+- **Database**: Aurora Serverless v2 with pgvector for semantic search
+- **Connection Pooling**: RDS Proxy (40-60% overhead reduction)
+- **Storage**: S3 (10 buckets, lifecycle policies)
+- **Protocol**: Model Context Protocol (MCP) + REST APIs
+- **Scheduling**: EventBridge (14 schedules, 1-hour to weekly)
+- **Monitoring**: CloudWatch Dashboard, SNS Alerting
+- **Quality**: Data validation pipeline with duplicate detection
 
 ## 🚀 Usage Examples
 
 Once configured, you can immediately start querying cybersecurity intelligence:
 
 **Ask Claude Desktop:**
-- *"Use veridano_search to find all known exploited vulnerabilities in VMware"*
-- *"Search for CISA KEV entries with federal compliance deadlines in 2025"* 
-- *"Find complete NIST SP 800 cybersecurity framework documents"*
-- *"Search for BOD 22-01 vulnerability remediation requirements"*
-- *"Use veridano_search for FBI IC3 private industry cyber advisories"*
+- *"Use veridano_search to find CISA ransomware guidance"*
+- *"Show me critical cybersecurity alerts from the last 24 hours using get_latest"*
+- *"Track APT29 activity across government reports"*
+- *"Compare CVE-2024-3400 with CVE-2023-44487 using compare_vulnerabilities"*
+- *"Get remediation guidance for Log4Shell"*
+- *"Analyze ransomware trends over the last 90 days"*
+- *"Search for MITRE ATT&CK techniques used by APT29"*
+- *"Find UK threat intelligence from NCSC about state-sponsored attacks"*
 
 ## 📊 Performance
 
-- **Response time**: 150-300ms average
-- **Database**: **2,000+ curated government cybersecurity documents**
-- **CISA KEV Coverage**: **100% complete** (1,413 vulnerabilities)
-- **Updates**: Every 1-6 hours for real-time sources, daily for comprehensive catalogs
-- **Uptime**: 99.9+ availability with enhanced infrastructure
-- **Enhanced Processing**: 5 specialized scrapers with automated S3 storage and dashboard integration
+- **Response time**: <1 second average (150-300ms typical)
+- **Database**: **6,000+ curated government cybersecurity documents**
+- **Coverage**: 14 agencies (US, UK, EU)
+- **MITRE ATT&CK**: Complete (1,450+ documents)
+- **Updates**: Every 1-6 hours for real-time sources, daily/weekly for comprehensive sources
+- **Rate Limit**: 1,000 requests/second
+- **Uptime**: 99.9% target
+- **Tools**: 7 MCP tools + 5 analytics APIs
+- **Infrastructure**: 29 Lambda functions, RDS Proxy, Aurora Serverless v2
 
 ## 📝 Response Format
 
 ```json
 {
-  "documents": [
+  "results": [
     {
-      "id": "AA24-131A",
-      "title": "CISA Analysis of Ransomware Trends and Tactics",
-      "content": "Comprehensive analysis of ransomware trends...",
+      "document_id": "cisa-aa24-131",
+      "title": "CISA Ransomware Guide",
+      "quick_summary": "First 500 characters for rapid assessment...",
+      "content": "Full content...",
       "source": "CISA",
-      "score": 0.95,
-      "published_date": "2024-05-10T00:00:00Z",
-      "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-131a"
+      "url": "https://...",
+      "published_date": "2024-05-10",
+      "relevance_score": 0.94,
+      "citation": {
+        "apa": "CISA. (2024). Ransomware Guide 2024. Retrieved from https://...",
+        "mla": "CISA. \"Ransomware Guide 2024.\" 10 May 2024, https://...",
+        "permalink": "https://www.cisa.gov/..."
+      },
+      "source_metadata": {
+        "organization": "CISA",
+        "authority_level": "federal_mandate",
+        "reliability_score": 1.0,
+        "document_type": "cybersecurity_advisory",
+        "classification": "public"
+      }
     }
   ],
-  "total_results": 1,
-  "timestamp": "2025-09-01T01:21:21.356Z"
+  "search_metadata": {
+    "sources_searched": ["CISA", "FBI"],
+    "embedding_model": "AWS_Titan_V2",
+    "min_score_threshold": 0.6,
+    "search_backend": "Aurora_pgvector"
+  }
 }
 ```
 
